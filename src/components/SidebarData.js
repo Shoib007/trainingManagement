@@ -5,15 +5,15 @@ import * as IoIcons from 'react-icons/io';
 
 export const SidebarData = [
   {
-    title: 'Home',
+    title: 'Dashboard',
     path: '/',
-    icon: <AiIcons.AiFillHome />,
+    icon: <AiIcons.AiFillDashboard />,
     cName: 'nav-text'
   },
   {
-    title: 'Reports',
-    path: '/reports',
-    icon: <IoIcons.IoIosPaper />,
+    title: 'Trainer Detail',
+    path: '/trainer',
+    icon: <AiIcons.AiOutlineDatabase />,
     cName: 'nav-text'
   },
   {
@@ -23,15 +23,9 @@ export const SidebarData = [
     cName: 'nav-text'
   },
   {
-    title: 'Team',
-    path: '/team',
-    icon: <IoIcons.IoMdPeople />,
-    cName: 'nav-text'
-  },
-  {
-    title: 'Messages',
-    path: '/messages',
-    icon: <FaIcons.FaEnvelopeOpenText />,
+    title: 'School Details',
+    path: '/school',
+    icon: <IoIcons.IoMdBook />,
     cName: 'nav-text'
   },
   {
