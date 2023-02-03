@@ -30,7 +30,8 @@ export default function Dashboard() {
   }, [selectedDate])
 
 
-  //Saving Assigned training data
+  //Saving Assigned training data and posting to server
+
   const saveTraningData = async () => {
     let formData = new FormData()
     formData.append('trainerName', trainer)
@@ -38,13 +39,7 @@ export default function Dashboard() {
     formData.append('startTime', sTime)
     formData.append('endTime', eTime)
     formData.append('TrainingDate', TraininDate)
-    console.log(`
-    Trainer : ${trainer}
-    School : ${school}
-    Date : ${TraininDate}
-    Start Time : ${sTime}
-    End Time : ${eTime}
-    `)
+
     await axios (
       {
         method:'post',
@@ -146,7 +141,6 @@ export default function Dashboard() {
           </div>
 
         </div >
-
 
 
         {/* Cards Section */}

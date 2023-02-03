@@ -23,13 +23,13 @@ export default function Schools() {
             {
                 method: 'post',
                 url: 'http://localhost:8000/schooldata',
-                data : schoolDetails
+                data: schoolDetails
             }
-        ).then( (response) => {
+        ).then((response) => {
             console.log(response.data)
-        } ).catch( (e) => {
+        }).catch((e) => {
             console.log(e.response.data)
-        } )
+        })
     }
 
     return (
@@ -40,7 +40,7 @@ export default function Schools() {
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add School</button>
                 </div>
 
-                <hr className='border border-primary border-3 opacity-50 my-2'/>
+                <hr className='border border-primary border-3 opacity-50 my-2' />
 
                 {/* Model Starts */}
 
