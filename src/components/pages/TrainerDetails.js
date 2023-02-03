@@ -1,16 +1,62 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { TrainerData } from '../DemoTrainerData';
+import axios from 'axios';
 
 export default function TrainerDetails() {
+
+  //State variables
+  const [fName, setFname] = useState()
+  const [lname, setLname] = useState()
+  const [pNumber, setPnumber] = useState()
+  const [mLink, setMlink] = useState()
+  const [email, setEmail] = useState()
+  const [trainerType, setTrainerType] = useState()
+  const [departmen, setDepartment] = useState()
+
+  const addTrainer = async () => {
+    const trainerData = new FormData()
+    trainerData.append('fname', fName)
+    trainerData.append('lname', lname)
+    trainerData.append('contact', pNumber)
+    trainerData.append('trainerLink', mLink)
+    trainerData.append('email', email)
+    trainerData.append('trainer_type', trainerType)
+    trainerData.append('department', departmen)
+    console.log(`
+    Fname : ${fName}
+    Lname : ${lname}
+    contact:${pNumber}
+    Meeting ID : ${mLink}
+    TrainerType : ${trainerType}
+    Department : ${departmen}
+    `)
+
+    await axios(
+      {
+        method: 'post',
+        url: 'http://127.0.0.1:8000/trainerdata',
+        data: trainerData
+      }
+    ).then( (response) => {
+      console.log(response.data)
+    }
+    ).catch( (e) => {
+      console.log(e.response.data)
+    }
+
+    )
+
+  }
+
 
   return (
     <>
       <div className="container d-flext jutify-content-center my-5">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Trainer</button>
+        <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Trainer</button>
 
         {/* Model Starts */}
 
-        <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
@@ -21,47 +67,47 @@ export default function TrainerDetails() {
 
                 <form>
                   {/* <!-- 2 column grid layout with text inputs for the first and last names --> */}
-                  <div class="row mb-2">
-                    <div class="col">
-                      <div class="form-outline">
-                        <label class="form-label" for="form6Example1">First name</label>
-                        <input type="text" id="form6Example1" class="form-control" required />
+                  <div className="row mb-2">
+                    <div className="col">
+                      <div className="form-outline">
+                        <label className="form-label" htmlFor="form6Example1">First name</label>
+                        <input type="text" id="form6Example1" className="form-control" name='fname' onChange={ (e) => setFname(e.target.value) } required />
                       </div>
                     </div>
 
-                    <div class="col">
-                      <div class="form-outline">
-                        <label class="form-label" for="form6Example2">Last name</label>
-                        <input type="text" id="form6Example2" class="form-control" required />
+                    <div className="col">
+                      <div className="form-outline">
+                        <label className="form-label" htmlFor="form6Example2">Last name</label>
+                        <input type="text" id="form6Example2" className="form-control" name='lname' onChange={ (e) => setLname(e.target.value)} required />
                       </div>
                     </div>
                   </div>
 
                   {/* <!-- Phone number --> */}
-                  <div class="form-outline mb-4">
-                    <label class="form-label" for="form6Example3">Phone Number</label>
-                    <input type="number" id="form6Example3" class="form-control" required />
+                  <div className="form-outline mb-4">
+                    <label className="form-label" htmlFor="form6Example3">Phone Number</label>
+                    <input type="number" id="form6Example3" className="form-control" name='PhoneNumber' onChange={(e) => setPnumber(e.target.value)} required />
                   </div>
 
                   {/* <!-- Meeting Link --> */}
-                  <div class="form-outline mb-4">
-                    <label class="form-label" for="form6Example4">Meeting Link</label>
-                    <input type="url" id="form6Example4" class="form-control" required />
+                  <div className="form-outline mb-4">
+                    <label className="form-label" htmlFor="form6Example4">Meeting Link</label>
+                    <input type="url" id="form6Example4" className="form-control" name='mLink' onChange={(e) => setMlink(e.target.value)} required />
                   </div>
 
                   {/* <!-- Email input --> */}
-                  <div class="form-outline mb-4">
-                    <label class="form-label" for="form6Example5">Email</label>
-                    <input type="email" id="form6Example5" class="form-control" required />
+                  <div className="form-outline mb-4">
+                    <label className="form-label" htmlFor="form6Example5">Email</label>
+                    <input type="email" id="form6Example5" className="form-control" name='email' onChange={(e) => setEmail(e.target.value)} required />
                   </div>
 
                   <div className="row">
 
                     {/* Trainer Type */}
                     <div className="col">
-                      <div class="form-outline mb-4">
-                        <label class="form-label" for="form6Example5">Select Trainer Type</label>
-                        <select class="form-select" aria-label="Default select example" required>
+                      <div className="form-outline mb-4">
+                        <label className="form-label" htmlFor="form6Example5">Select Trainer Type</label>
+                        <select className="form-select" aria-label="Default select example" name='trainerType' onChange={e => setTrainerType(e.target.value)} required>
                           <option value='none' hidden>Trainer Type</option>
                           <option value="Computer Science">Computer Science</option>
                           <option value="Robotics">Robotics</option>
@@ -72,9 +118,9 @@ export default function TrainerDetails() {
 
                     {/* Department */}
                     <div className="col">
-                      <div class="form-outline mb-4">
-                        <label class="form-label" for="form6Example5">Department</label>
-                        <select class="form-select" aria-label="Default select example" required>
+                      <div className="form-outline mb-4">
+                        <label className="form-label" htmlFor="form6Example5">Department</label>
+                        <select className="form-select" aria-label="Default select example" name='department' onChange={e => setDepartment(e.target.value)} required>
                           <option value='none' hidden>Select Department</option>
                           <option value="Computer Science">Business to Business (B2B) </option>
                           <option value="Robotics">Business to Costomer (B2C) </option>
@@ -91,7 +137,7 @@ export default function TrainerDetails() {
 
 
               <div className="modal-footer">
-                <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">Assign</button>
+                <button type="submit" className="btn btn-primary" data-bs-dismiss="modal" onClick={addTrainer}>Assign</button>
               </div>
             </div>
           </div>
@@ -106,7 +152,7 @@ export default function TrainerDetails() {
 
         {/* Showing Data */}
 
-        <table class="table table-hover">
+        <table className="table table-hover">
           <thead>
             <tr>
               <th scope="col">TrainerID</th>
