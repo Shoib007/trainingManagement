@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
-import { TrainerData } from '../DemoTrainerData';
+import React, { useEffect, useState } from 'react'
+// import { TrainerData } from '../DemoTrainerData';
 import axios from 'axios';
+
 
 export default function TrainerDetails() {
 
-  //State variables
+  //############################ State Variables form Popup Model ############################
+
+  const [TrainerData, setTrainerData] = useState([])
   const [fName, setFname] = useState()
   const [lname, setLname] = useState()
   const [pNumber, setPnumber] = useState()
@@ -22,14 +25,6 @@ export default function TrainerDetails() {
     trainerData.append('email', email)
     trainerData.append('trainer_type', trainerType)
     trainerData.append('department', departmen)
-    console.log(`
-    Fname : ${fName}
-    Lname : ${lname}
-    contact:${pNumber}
-    Meeting ID : ${mLink}
-    TrainerType : ${trainerType}
-    Department : ${departmen}
-    `)
 
     await axios(
       {
@@ -37,10 +32,10 @@ export default function TrainerDetails() {
         url: 'http://127.0.0.1:8000/trainerdata',
         data: trainerData
       }
-    ).then( (response) => {
+    ).then((response) => {
       console.log(response.data)
     }
-    ).catch( (e) => {
+    ).catch((e) => {
       console.log(e.response.data)
     }
 
@@ -48,6 +43,16 @@ export default function TrainerDetails() {
 
   }
 
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/trainerdata').then((response) => {
+      setTrainerData(response.data)
+    }
+    ).catch((e) => {
+      console.log(e.response.data)
+    }
+
+    )
+  }, [])
 
   return (
     <>
@@ -71,14 +76,14 @@ export default function TrainerDetails() {
                     <div className="col">
                       <div className="form-outline">
                         <label className="form-label" htmlFor="form6Example1">First name</label>
-                        <input type="text" id="form6Example1" className="form-control" name='fname' onChange={ (e) => setFname(e.target.value) } required />
+                        <input type="text" id="form6Example1" className="form-control" name='fname' onChange={(e) => setFname(e.target.value)} required />
                       </div>
                     </div>
 
                     <div className="col">
                       <div className="form-outline">
                         <label className="form-label" htmlFor="form6Example2">Last name</label>
-                        <input type="text" id="form6Example2" className="form-control" name='lname' onChange={ (e) => setLname(e.target.value)} required />
+                        <input type="text" id="form6Example2" className="form-control" name='lname' onChange={(e) => setLname(e.target.value)} required />
                       </div>
                     </div>
                   </div>
@@ -166,16 +171,16 @@ export default function TrainerDetails() {
             </tr>
           </thead>
           <tbody>
-            {TrainerData.map((data) => (
-              <tr>
-                <th scope='row'>{data.TrainerID}</th>
-                <td>{data.FirstName}</td>
-                <td>{data.LastName}</td>
-                <td>{data.PhoneNumber}</td>
-                <td><a className='text-decoration-none' href={data.MeetingLink}>{data.MeetingLink}</a></td>
-                <td>{data.Email}</td>
-                <td>{data.TrainerType}</td>
-                <td>{data.Department}</td>
+            {TrainerData.map((data, i) => (
+              <tr key={i}>
+                <th scope='row'>{data.id}</th>
+                <td>{data.fname}</td>
+                <td>{data.lname}</td>
+                <td>{data.contact}</td>
+                <td><a className='text-decoration-none' href={data.trainerLink}>{data.trainerLink}</a></td>
+                <td>{data.email}</td>
+                <td>{data.trainer_type}</td>
+                <td>{data.department}</td>
 
               </tr>
             )
