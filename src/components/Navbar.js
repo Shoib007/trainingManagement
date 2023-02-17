@@ -1,40 +1,59 @@
 import React, { useState } from 'react';
 import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { SidebarData } from './SidebarData';
 import './Navbar.css';
 import { IconContext } from 'react-icons';
+import { GoPerson, GoSignOut } from 'react-icons/go';
+import { AuthContext } from './authFolder/AuthContext';
+import { useContext } from 'react';
+import axios from 'axios';
 
 function Navbar() {
+  const auth = useContext(AuthContext)
+  const redirect = useHistory()
   const [sidebar, setSidebar] = useState(false);
-
   const showSidebar = () => setSidebar(!sidebar);
+
+  const Logout = () => {
+    localStorage.removeItem('jwt');
+    localStorage.removeItem('userDetail');
+    axios({
+      method: 'post',
+      withCredentials: true,
+      url: 'http://localhost:8000/logout',
+    }).then((res) => {
+      auth.updateAuth();
+    }).catch((error) => {
+      console.log(error.response.data)
+    })
+    
+    redirect.push("/");
+  }
 
   return (
     <>
       <IconContext.Provider value={{ color: 'white' }}>       {/* Hamburger icon color */}
         <div className='Mainnavbar'>
-          <Link to='#' className='menu-bars'>
+          <span className='menu-bars'>
             <FaIcons.FaBars onClick={showSidebar} />
-          </Link>
+          </span>
 
           <div className="d-flex justify-content-end align-item-center container">
-            <a className="navbar-brand" href="/#">
+            <Link to="/Dashboard" className="navbar-brand">
               <img src="./EduvatePortalLogo.png" height="50" className="d-inline-block" alt="" />
-            </a>
+            </Link>
 
 
             <ul className='navbar-nav d-flex align-item-center mx-4'>
               <li className="list-group-item dropdown">
-                <a className="dropdown-toggle" href="/#" data-bs-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                <Link className="dropdown-toggle" to="/#" data-bs-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
                   <img src="./profile.png" width="40" height="40" alt='profile' />
-                </a>
+                </Link>
                 <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a className="dropdown-item" href="/#">Action</a>
-                  <a className="dropdown-item" href="/#">Another action</a>
-                  <div className="dropdown-divider"></div>
-                  <a className="dropdown-item" href="/#">Something else here</a>
+                  <Link className="dropdown-item" to="/profile">{<GoPerson className='mx-2' style={{ color: '#eb4a0a', fontSize: '1.2rem' }} />} Profile </Link>
+                  <span className="dropdown-item" onClick={Logout}>{<GoSignOut className='mx-2' style={{ color: '#eb4a0a', fontSize: '1.2rem' }} />} Logout </span>
                 </div>
               </li>
             </ul>
@@ -69,5 +88,4 @@ function Navbar() {
     </>
   );
 }
-
 export default Navbar;

@@ -1,20 +1,13 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-// import { SchoolData } from '../DemoTrainerData'
-// import ClipLoader from 'react-spinners/ClipLoader';
+import React, {useEffect, useState } from 'react'
+import { YesNoPopUps } from '../PopupModels/YesNoPopUps'
 import { SchoolModel } from '../PopupModels/SchoolModel'
 
 export default function Schools() {
     //State variables
     const [curKey, setCurKey] = useState()
     const [SchoolData, setSchoolData] = useState([])
-    const [school, setSchool] = useState({
-        schoolName: '',
-        region: '',
-        am: '',
-        om: '',
-        catagory: '',
-    })
+    const [school, setSchool] = useState({})
 
     //################## Handelling the changes and storing into state variables ##########################
 
@@ -41,19 +34,13 @@ export default function Schools() {
                 data: schoolDetails
             }
         ).then((response) => {
-            console.log(response.data)
+            setSchoolData([...SchoolData, response.data])
         }).catch((e) => {
             console.log(e.response.data)
         })
     }
 
-
-    //######################################### Detelte School Info Based of ID ####################################
-
-    const detelteData = (id) => {
-        axios.delete(`http://localhost:8000/schooldata/${id}`)
-    }
-
+    
     /* ######################################## Fetching Data From API ############################################## */
 
     useEffect(() => {
@@ -61,16 +48,16 @@ export default function Schools() {
             .then((response) => {
                 setSchoolData(response.data);
             })
-    }, [SchoolData])
+    }, [])
 
 
-    if (SchoolData.length === 0) {
-        return (
-            <div className='container d-flex justify-content-center align-item-center'>
-                <h1>Loading ......</h1>
-            </div>
-        )
-    }
+    // if (SchoolData.length === 0) {
+    //     return (
+    //         <div className='container d-flex justify-content-center align-item-center'>
+    //             <h1>Loading ......</h1>
+    //         </div>
+    //     )
+    // }
 
     return (
         <div className='my-5'>
@@ -83,6 +70,7 @@ export default function Schools() {
 
                 {/*################################ Model Starts ######################################### */}
                 <SchoolModel id={curKey} />
+                <YesNoPopUps path='schooldata' id={curKey}/>
 
                 <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div className="modal-dialog">
@@ -168,7 +156,7 @@ export default function Schools() {
                                     <td>{school.am}</td>
                                     <td>{school.om}</td>
                                     <td>{school.catagory}</td>
-                                    <td><button className='btn btn-danger' onClick={(e) => detelteData(school.id)}>Delete</button></td>
+                                    <td><button className='btn btn-danger' data-bs-toggle="modal" onClick={() => setCurKey(school.id)} data-bs-target="#exampleModalCenter">Delete</button></td>
                                     <td><button className='btn btn-warning' data-bs-toggle="modal" onClick={() => setCurKey(school.id)} data-bs-target="#examp2">Modify</button></td>
                                 </tr>
                             })
