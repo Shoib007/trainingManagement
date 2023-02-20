@@ -1,5 +1,7 @@
 ## Training Management System
 
+*Under Development*
+
 ## Front-End Installation
 
 Install [Node.js](https://nodejs.org/) v10+ to run.
