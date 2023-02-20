@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import axios from 'axios'
-
-let BASE_URL = 'http://localhost:8000'
+import { BASE_URL } from '../BaseUrl'
 export default function TrainerModel(prop) {
 
     const [Trainer, setTrainer] = useState({

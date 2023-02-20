@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { YesNoPopUps } from '../PopupModels/YesNoPopUps';
 import TrainerModel from '../PopupModels/TrainerModel';
+import { BASE_URL } from '../BaseUrl';
 export default function TrainerDetails() {
 
   //############################ State Variables form Popup Model ############################
   const [TrainerData, setTrainerData] = useState([])
   const [curKey, setCurKey] = useState()
   const [formData, setFormData] = useState({})
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [messageType, setMessageType] = useState("")
 
   //########################### Handelling Form Input Data ###################################
   const handelState = (event) => {
@@ -18,25 +21,38 @@ export default function TrainerDetails() {
   const addTrainer = async () => {
     const trainerData = new FormData()
     trainerData.append('fname', formData.fName)
-    trainerData.append('lname', formData.lname)
     trainerData.append('contact', formData.contact)
     trainerData.append('trainerLink', formData.trainerLink)
     trainerData.append('email', formData.email)
     trainerData.append('trainer_type', formData.trainer_type)
     trainerData.append('department', formData.department)
 
+    const user = new FormData()
+    user.append('name', formData.fName)
+    user.append('email', formData.email)
+    user.append('phoneNumber', formData.contact)
+    user.append('password',formData.email)
+    await axios({
+      method: 'post',
+      url: `${BASE_URL}/register`,
+      data: user
+    })
+      .then((res) => {
+        console.log(res.data)
+        setMessageType("success")
+        setShowSuccessMessage(true)
+      })
     await axios(
       {
         method: 'post',
-        url: 'http://127.0.0.1:8000/trainerdata',
+        url: `${BASE_URL}/trainerdata`,
         data: trainerData
       }
     ).then((response) => {
-      console.log(response.data)
-      setTrainerData([...TrainerData,response.data])
+      setTrainerData([...TrainerData, response.data])
     }
     ).catch((e) => {
-      console.log(e.response)
+      console.log(e.response.data)
     }
 
     )
@@ -44,24 +60,38 @@ export default function TrainerDetails() {
   }
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/trainerdata').then((response) => {
+    axios.get(`${BASE_URL}/trainerdata`).then((response) => {
       setTrainerData(response.data)
     }
     ).catch((e) => {
       console.log(e.response.data)
-    }
+    })
 
-    )
-  }, [])
+    if (showSuccessMessage) {
+      // Hide the success message box after 3 seconds
+      const timeoutId = setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 3000);
+      
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    }
+  }, [showSuccessMessage])
 
   return (
     <>
       <div className="container d-flext jutify-content-center my-5">
+        {showSuccessMessage && (
+          <div className={`alert alert-${messageType}`}  role="alert">
+            Trainer Has been added successfully
+          </div>
+        )}
         <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Trainer</button>
 
         {/* Model Starts */}
-        <YesNoPopUps path="trainerdata" id={curKey}/>
-        <TrainerModel id={curKey}/>
+        <YesNoPopUps path="trainerdata" id={curKey} />
+        <TrainerModel id={curKey} />
 
         <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog">
@@ -77,15 +107,8 @@ export default function TrainerDetails() {
                   <div className="row mb-2">
                     <div className="col">
                       <div className="form-outline">
-                        <label className="form-label" htmlFor="form6Example1">First name</label>
+                        <label className="form-label" htmlFor="form6Example1">Trainer Full Name</label>
                         <input type="text" id="form6Example1" className="form-control" name='fName' onChange={handelState} required />
-                      </div>
-                    </div>
-
-                    <div className="col">
-                      <div className="form-outline">
-                        <label className="form-label" htmlFor="form6Example2">Last name</label>
-                        <input type="text" id="form6Example2" className="form-control" name='lname' onChange={handelState} required />
                       </div>
                     </div>
                   </div>
@@ -150,7 +173,7 @@ export default function TrainerDetails() {
 
         {/* Models Ends */}
 
-        <hr/>
+        <hr />
       </div>
 
       <div className='d-flext jutify-content-center container mt-5'>

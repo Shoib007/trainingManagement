@@ -1,4 +1,4 @@
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { BsCaretRightFill } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
 // import { useEffect } from 'react';
@@ -8,7 +8,7 @@ export default function Profile(prop) {
     const [userInfo, setUserInfo] = useState(JSON.parse(localStorage.getItem('userDetail')))
     useEffect(() => {
         setUserInfo(JSON.parse(localStorage.getItem('userDetail')))
-    },[])
+    }, [])
 
     return (
         <div>
@@ -19,7 +19,7 @@ export default function Profile(prop) {
                     <span className='fs-4 mx-3'>Profile</span>
                 </div>
                 <div className="row">
-                <div className="d-flex justify-content-start align-items-center mx-5 mt-3">
+                    <div className="d-flex justify-content-start align-items-center mx-5 mt-3">
                         <h4 className="text-right">User Name</h4>
                     </div>
                     <div className="col-md-3 border-right">
@@ -32,25 +32,22 @@ export default function Profile(prop) {
                         <div className="p-3">
 
                             <div className="row mt-2">
-                                <div className="col-md-6">
-                                    <label className="labels">First Name</label>
-                                    <input type="text" value={userInfo.name} className="form-control" placeholder="first name" readOnly/>
+                                <div className="col-md-12">
+                                    <label className="labels">Full Name</label>
+                                    <input type="text" value={userInfo.name} className="form-control" placeholder="first name" readOnly />
                                 </div>
-                                <div className="col-md-6">
-                                    <label className="labels">Last Name</label>
-                                    <input type="text" className="form-control" placeholder="last name" readOnly/>
-                                </div>
+                                
                             </div>
 
                             <div className="row mt-3">
                                 <div className="col-md-12">
                                     <label className="labels">Mobile Number</label>
-                                    <input type="text" className="form-control mb-3" value={userInfo.phoneNumber} placeholder="enter phone number" readOnly/>
+                                    <input type="text" className="form-control mb-3" value={userInfo.phoneNumber} placeholder="enter phone number" readOnly />
                                 </div>
 
                                 <div className="col-md-12">
                                     <label className="labels">Email ID</label>
-                                    <input type="text" value={userInfo.email} className="form-control mb-3" placeholder="enter email id" readOnly/>
+                                    <input type="text" value={userInfo.email} className="form-control mb-3" placeholder="enter email id" readOnly />
                                 </div>
                             </div>
 

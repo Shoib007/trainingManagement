@@ -2,10 +2,12 @@ import axios from 'axios'
 import React, { useEffect, useMemo, useRef, useState, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { AuthContext } from '../authFolder/AuthContext'
+import { BASE_URL } from '../BaseUrl'
 
 export default function Dashboard() {
   const history = useHistory()
   const authenticated = useContext(AuthContext)
+
   // ############ Variables for Forms and Api Data #######################
 
   const [trainers, setTrainers] = useState([])
@@ -27,35 +29,32 @@ export default function Dashboard() {
     return trainigData.filter(obj => obj.TrainingDate === selectedDate);
   }, [selectedDate, trainigData])
 
-
   /* ###################################### Fetching Data from API ############################## */
 
   useEffect(() => {
     curDate.current.valueAsDate = new Date(); // To set the default date to current date
 
-    axios.get('http://localhost:8000/training')
+    axios.get(`${BASE_URL}/training`)
       .then((response) => {
         setTrainingData(response.data)
       }).catch(e => {
-        console.log(e.response.data)
+        console.log(e.response.status)
       })
 
-    axios.get('http://localhost:8000/schooldata')
+    axios.get(`${BASE_URL}/schooldata`)
       .then((response) => {
         setSchoolApi(response.data)
       }).catch((e) => {
         console.log(e.response.data)
       })
 
-    axios.get('http://localhost:8000/trainerdata')
+    axios.get(`${BASE_URL}/trainerdata`)
       .then((response) => {
         setTrainers(response.data)
       }).catch(e => {
         console.log(e.response)
       })
   }, [])
-
-
 
   /* ###################### Saving Assigned training data and posting to server ############################## */
 
@@ -66,18 +65,18 @@ export default function Dashboard() {
     formData.append('startTime', sTime)
     formData.append('endTime', eTime)
     formData.append('TrainingDate', TraininDate)
-    console.log(trainer)
 
     await axios(
       {
         method: 'post',
-        url: 'http://localhost:8000/training',
+        url: `${BASE_URL}/training`,
         data: formData
       }
     ).then((response) => {
       console.log(response.data)
     }).catch((e) => {
       console.log(e.response.data)
+      console.log(formData)
     })
   }
   if (authenticated.authData) {
@@ -109,7 +108,7 @@ export default function Dashboard() {
                             <option value='none' hidden>Choose Trainer</option>
                             {
                               trainers.map((trainer, i) => {
-                                return <option value={trainer.fname} key={trainer.id}>{trainer.fname}</option>
+                                return <option value={parseInt(trainer.id)} key={trainer.id}>{trainer.fname}</option>
                               })
                             }
                           </select>
@@ -123,7 +122,7 @@ export default function Dashboard() {
                             <option value='none' hidden>Choose School</option>
                             {
                               schoolApi.map((data) => {
-                                return <option value={data.school} key={data.id}>{data.school}</option>
+                                return <option value={parseInt(data.id)} key={data.id}>{data.school}</option>
                               })
                             }
 
@@ -175,15 +174,15 @@ export default function Dashboard() {
 
           < div className='container d-flex justify-content-start align-items-center flex-wrap my-5'>
             {
-              filterData.map((tData, i) => {
+              filterData.map((tData) => {
                 return (
-                  <div className="card mx-3 mb-3" key={i.toString()} style={{ width: "18rem", zIndex: '-2' }}>
-                    <div className="card-body" key={i.toString()}>
+                  <div className="card mx-3 mb-3" key={tData.id} style={{ width: "18rem", zIndex: '-2' }}>
+                    <div className="card-body" key={tData.id}>
                       <h5 className="card-title mb-3">{tData.schoolName}</h5>
                       <h6 className="card-subtitle mb-2 text-muted">{tData.trainerName}</h6>
                       <h6 className='card-subtitle mb-2'>{tData.TrainingDate}</h6>
                       <p className='card-subtitle mt-2'><b>Training Link :</b></p>
-                      <a href="/#" className='card-link'>{trainers.length > 0 ? trainers.filter(obj => obj.fname === tData.trainerName)[0].trainerLink : "fetching ...."}</a>
+                      <a href="/#" className='card-link'>{tData.TrainerLink}</a>
                       <p className="card-subtitle mb-2 mt-2">Starting : {tData.startTime}</p>
                       <p className="card-subtitle mb-2">Ending : {tData.endTime}</p>
                     </div>
@@ -197,7 +196,7 @@ export default function Dashboard() {
       </>
     )
   }
-  else{
+  else {
     history.push("/")
   }
 }

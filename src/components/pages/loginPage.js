@@ -5,19 +5,19 @@ import { useEffect, useState } from 'react';
 import Profile from './Profile'
 import { AuthContext } from '../authFolder/AuthContext';
 import { useContext } from 'react';
+import Cookies from 'js-cookie';
 export default function LoginPage() {
     const auth = useContext(AuthContext);
     const [quest, setQuest] = useState({
         author: '', text: ''
     })
 
+    const [staff, setStaff] = useState(true)
     // const [user, setUser] = useState(JSON.parse(localStorage.getItem('userDetails')) || {})
 
     const [login, setLogin] = useState({
         email: '', password: ''
     })
-
-    const [authenticated, setAuthentication] = useState(false)
 
     //############################### Generating Random number #################################
 
@@ -28,10 +28,17 @@ export default function LoginPage() {
     //################################ Fetching Qutes ###########################################
 
     useEffect(() => {
-        const token = localStorage.getItem('jwt')
-        if (token) {
-            setAuthentication(true)
+        if (!staff) {
+            // Hide the success message box after 3 seconds
+            const timeoutId = setTimeout(() => {
+                setStaff(true);
+            }, 3000);
+
+            return () => {
+                clearTimeout(timeoutId);
+            };
         }
+
         let num = randomNumber();
         fetch("https://type.fit/api/quotes")
             .then(function (response) {
@@ -40,7 +47,7 @@ export default function LoginPage() {
             .then(function (data) {
                 setQuest(data[num])
             });
-    }, [])
+    }, [staff])
 
     //################################## User Input Handling ##########################################
 
@@ -70,21 +77,26 @@ export default function LoginPage() {
                 'X-CSRFToken': 'csrfToken'
             }
         })
-            .then(res => {
-                localStorage.setItem('jwt', res.data.token)
+            .then(() => {
                 axios.get('http://localhost:8000/login', { withCredentials: true }) // Here I'll get the user details from Django Server
                     .then(res => {
-                        setAuthentication(true);
-                        localStorage.setItem('userDetail', JSON.stringify(res.data));
-                        auth.updateAuth();
+                        if (res.data.is_staff) {
+                            setStaff(true);
+                            localStorage.setItem('userDetail', JSON.stringify(res.data));
+                            auth.updateAuth();
+                        }
+                        else {
+                            setStaff(false);
+                            Cookies.remove('jwt');
+                        }
                     }).catch(e => console.log(e.response.data))
 
             })
             .catch(e => console.log(e.response.data))
     }
 
-    if (authenticated) {
-        return <Profile/>
+    if (staff && auth.authData) {
+        return <Profile />
     }
     return (
         <div>
@@ -118,6 +130,14 @@ export default function LoginPage() {
                                             <label className="form-label" htmlFor="form3Example4">Password</label>
                                             <input type="password" id="form3Example4" name='password' onChange={changeHandle} className="form-control" />
                                         </div>
+
+                                        {/* Warning for login or no */}
+
+                                        {!staff && (
+                                            <div className="alert alert-danger" role="alert">
+                                                Use trainer Link insted !!
+                                            </div>
+                                        )}
 
                                         {/* <!-- Submit button --> */}
                                         <button type="submit" className="btn px-4 py-2 btn-primary" onClick={Login}>

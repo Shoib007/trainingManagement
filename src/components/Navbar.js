@@ -26,7 +26,7 @@ function Navbar() {
     }).then((res) => {
       auth.updateAuth();
     }).catch((error) => {
-      console.log(error.response.data)
+      console.log(error.response.status)
     })
     
     redirect.push("/");
