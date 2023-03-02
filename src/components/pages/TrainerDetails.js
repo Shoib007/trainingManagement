@@ -27,21 +27,6 @@ export default function TrainerDetails() {
     trainerData.append('trainer_type', formData.trainer_type)
     trainerData.append('department', formData.department)
 
-    const user = new FormData()
-    user.append('name', formData.fName)
-    user.append('email', formData.email)
-    user.append('phoneNumber', formData.contact)
-    user.append('password',formData.email)
-    await axios({
-      method: 'post',
-      url: `${BASE_URL}/register`,
-      data: user
-    })
-      .then((res) => {
-        console.log(res.data)
-        setMessageType("success")
-        setShowSuccessMessage(true)
-      })
     await axios(
       {
         method: 'post',
@@ -61,10 +46,10 @@ export default function TrainerDetails() {
 
   useEffect(() => {
     axios.get(`${BASE_URL}/trainerdata`).then((response) => {
-      setTrainerData(response.data)
+      setTrainerData(response.data);
     }
     ).catch((e) => {
-      console.log(e.response.data)
+      console.log(e.response.statusText)
     })
 
     if (showSuccessMessage) {
@@ -72,7 +57,7 @@ export default function TrainerDetails() {
       const timeoutId = setTimeout(() => {
         setShowSuccessMessage(false);
       }, 3000);
-      
+
       return () => {
         clearTimeout(timeoutId);
       };
@@ -81,9 +66,9 @@ export default function TrainerDetails() {
 
   return (
     <>
-      <div className="container d-flext jutify-content-center my-5">
+      <div className="container my-5">
         {showSuccessMessage && (
-          <div className={`alert alert-${messageType}`}  role="alert">
+          <div className={`alert alert-${messageType}`} role="alert">
             Trainer Has been added successfully
           </div>
         )}
@@ -176,7 +161,7 @@ export default function TrainerDetails() {
         <hr />
       </div>
 
-      <div className='d-flext jutify-content-center container mt-5'>
+      <div className='container table-responsive'>
 
         {/* Showing Data */}
 
@@ -197,8 +182,8 @@ export default function TrainerDetails() {
           </thead>
           <tbody>
             {TrainerData.map((data) => (
-              <tr key={data.id}>
-                <th scope='row'>{data.id}</th>
+              <tr key={data.user}>
+                <th scope='row'>{data.user}</th>
                 <td>{data.fname}</td>
                 <td>{data.lname}</td>
                 <td>{data.contact}</td>

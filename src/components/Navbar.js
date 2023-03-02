@@ -25,11 +25,10 @@ function Navbar() {
       url: 'http://localhost:8000/logout',
     }).then((res) => {
       auth.updateAuth();
+      redirect.push("/");
     }).catch((error) => {
       console.log(error.response.status)
     })
-    
-    redirect.push("/");
   }
 
   return (

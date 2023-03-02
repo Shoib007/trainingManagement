@@ -2,18 +2,16 @@
 import axios from 'axios'
 import React from 'react';
 import { useEffect, useState } from 'react';
-import Profile from './Profile'
 import { AuthContext } from '../authFolder/AuthContext';
 import { useContext } from 'react';
 import Cookies from 'js-cookie';
+import { useHistory } from 'react-router-dom';
 export default function LoginPage() {
+    const redirect = useHistory();
     const auth = useContext(AuthContext);
-    const [quest, setQuest] = useState({
-        author: '', text: ''
-    })
+    const [quest, setQuest] = useState({author: '', text: ''})
 
     const [staff, setStaff] = useState(true)
-    // const [user, setUser] = useState(JSON.parse(localStorage.getItem('userDetails')) || {})
 
     const [login, setLogin] = useState({
         email: '', password: ''
@@ -96,7 +94,7 @@ export default function LoginPage() {
     }
 
     if (staff && auth.authData) {
-        return <Profile />
+        redirect.push("/dashboard")
     }
     return (
         <div>

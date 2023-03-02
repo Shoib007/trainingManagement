@@ -12,20 +12,11 @@ import ProtectedRoute from './components/SecurePath';
 import { Fragment } from 'react';
 import { AuthContext } from './components/authFolder/AuthContext';
 import { useContext } from 'react';
-// import {
-//   CDBSidebar,
-//   CDBSidebarContent,
-//   CDBSidebarFooter,
-//   CDBSidebarHeader,
-//   CDBSidebarMenu,
-//   CDBSidebarMenuItem,
-// } from 'cdbreact';
 
 function App() {
  const Authenticated = useContext(AuthContext).authData;
   return (
     <>
-    
       <Router>
         <Switch>
           <Route path='/' exact component={LoginPage} />
