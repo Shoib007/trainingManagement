@@ -10,7 +10,6 @@ export default function TrainerDetails() {
   const [curKey, setCurKey] = useState()
   const [formData, setFormData] = useState({})
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [messageType, setMessageType] = useState("")
 
   //########################### Handelling Form Input Data ###################################
   const handelState = (event) => {
@@ -68,7 +67,7 @@ export default function TrainerDetails() {
     <>
       <div className="container my-5">
         {showSuccessMessage && (
-          <div className={`alert alert-${messageType}`} role="alert">
+          <div className="alert alert-success" role="alert">
             Trainer Has been added successfully
           </div>
         )}

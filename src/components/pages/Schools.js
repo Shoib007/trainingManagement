@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, {useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { YesNoPopUps } from '../PopupModels/YesNoPopUps'
 import { SchoolModel } from '../PopupModels/SchoolModel'
 
@@ -40,7 +40,7 @@ export default function Schools() {
         })
     }
 
-    
+
     /* ######################################## Fetching Data From API ############################################## */
 
     useEffect(() => {
@@ -70,7 +70,7 @@ export default function Schools() {
 
                 {/*################################ Model Starts ######################################### */}
                 <SchoolModel id={curKey} />
-                <YesNoPopUps path='schooldata' id={curKey}/>
+                <YesNoPopUps path='schooldata' id={curKey} />
 
                 <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div className="modal-dialog">
@@ -132,39 +132,40 @@ export default function Schools() {
 
                 {/*###################################### Popup Model End ############################################# */}
 
-                <table className="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">SchoolID</th>
-                            <th scope="col">School Name</th>
-                            <th scope="col">Region</th>
-                            <th scope="col">Academic Manager</th>
-                            <th scope="col">Operations Manager</th>
-                            <th scope="col">Catagory</th>
-                            <th scope='col'>Delete</th>
-                            <th scope='col'>Modity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            SchoolData.map((school) => {
+                <div className='container table-responsive'>
+                    <table className="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">SchoolID</th>
+                                <th scope="col">School Name</th>
+                                <th scope="col">Region</th>
+                                <th scope="col">Academic Manager</th>
+                                <th scope="col">Operations Manager</th>
+                                <th scope="col">Catagory</th>
+                                <th scope='col'>Delete</th>
+                                <th scope='col'>Modity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                SchoolData.map((school) => {
 
-                                return <tr key={school.id}>
-                                    <th scope="row">{school.id}</th>
-                                    <td>{school.school}</td>
-                                    <td>{school.region}</td>
-                                    <td>{school.am}</td>
-                                    <td>{school.om}</td>
-                                    <td>{school.catagory}</td>
-                                    <td><button className='btn btn-danger' data-bs-toggle="modal" onClick={() => setCurKey(school.id)} data-bs-target="#exampleModalCenter">Delete</button></td>
-                                    <td><button className='btn btn-warning' data-bs-toggle="modal" onClick={() => setCurKey(school.id)} data-bs-target="#examp2">Modify</button></td>
-                                </tr>
-                            })
-                        }
+                                    return <tr key={school.id}>
+                                        <th scope="row">{school.id}</th>
+                                        <td>{school.school}</td>
+                                        <td>{school.region}</td>
+                                        <td>{school.am}</td>
+                                        <td>{school.om}</td>
+                                        <td>{school.catagory}</td>
+                                        <td><button className='btn btn-danger' data-bs-toggle="modal" onClick={() => setCurKey(school.id)} data-bs-target="#exampleModalCenter">Delete</button></td>
+                                        <td><button className='btn btn-warning' data-bs-toggle="modal" onClick={() => setCurKey(school.id)} data-bs-target="#examp2">Modify</button></td>
+                                    </tr>
+                                })
+                            }
 
-                    </tbody>
-                </table>
-
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     )

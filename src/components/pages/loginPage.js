@@ -5,9 +5,9 @@ import { useEffect, useState } from 'react';
 import { AuthContext } from '../authFolder/AuthContext';
 import { useContext } from 'react';
 import Cookies from 'js-cookie';
-import { useHistory } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 export default function LoginPage() {
-    const redirect = useHistory();
+    const redirect = useNavigate();
     const auth = useContext(AuthContext);
     const [quest, setQuest] = useState({author: '', text: ''})
 
@@ -94,7 +94,7 @@ export default function LoginPage() {
     }
 
     if (staff && auth.authData) {
-        redirect.push("/dashboard")
+        redirect("/dashboard")
     }
     return (
         <div>
