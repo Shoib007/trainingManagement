@@ -6,6 +6,8 @@ import { AuthContext } from '../authFolder/AuthContext';
 import { useContext } from 'react';
 import Cookies from 'js-cookie';
 import {useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../BaseUrl';
+
 export default function LoginPage() {
     const redirect = useNavigate();
     const auth = useContext(AuthContext);
@@ -76,7 +78,7 @@ export default function LoginPage() {
             }
         })
             .then(() => {
-                axios.get('http://localhost:8000/login', { withCredentials: true }) // Here I'll get the user details from Django Server
+                axios.get(`${BASE_URL}/login`, { withCredentials: true }) // Here I'll get the user details from Django Server
                     .then(res => {
                         if (res.data.is_staff) {
                             setStaff(true);
@@ -87,14 +89,14 @@ export default function LoginPage() {
                             setStaff(false);
                             Cookies.remove('jwt');
                         }
-                    }).catch(e => console.log(e.response.data))
+                    }).catch(e => console.log(e.response.data));
 
             })
-            .catch(e => console.log(e.response.data))
+            .catch(e => console.log(e.response.data));
     }
 
     if (staff && auth.authData) {
-        redirect("/dashboard")
+        redirect("/dashboard");
     }
     return (
         <div>

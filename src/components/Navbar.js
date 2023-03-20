@@ -98,6 +98,9 @@ import { AuthContext } from './authFolder/AuthContext';
 export default function Sidebar() {
   const auth = useContext(AuthContext);
   const redirect = useNavigate();
+
+  //################### LOGOUT Function #####################################\
+
   const Logout = () => {
     localStorage.removeItem('jwt');
     localStorage.removeItem('userDetail');
@@ -124,15 +127,17 @@ export default function Sidebar() {
 
         <CDBSidebarContent className="sidebar-content">
           <CDBSidebarMenu>
+            <NavLink to="/profile" activeclassname="activeClicked">
+              <CDBSidebarMenuItem icon="user">Profile page</CDBSidebarMenuItem>
+            </NavLink>
+
             <NavLink to="/dashboard" activeclassname="activeClicked">
               <CDBSidebarMenuItem icon="columns">Dashboard</CDBSidebarMenuItem>
             </NavLink>
             <NavLink to="/trainer" activeclassname="activeClicked">
               <CDBSidebarMenuItem icon="table">Trainer</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink to="/profile" activeclassname="activeClicked">
-              <CDBSidebarMenuItem icon="user">Profile page</CDBSidebarMenuItem>
-            </NavLink>
+
             <NavLink to="/school" activeclassname="activeClicked">
               <CDBSidebarMenuItem icon="chart-line">School</CDBSidebarMenuItem>
             </NavLink>

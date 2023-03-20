@@ -6,18 +6,9 @@ import { AiOutlineFileDone } from 'react-icons/ai';
 import TrainingModel from '../PopupModels/TrainingModel';
 
 export default function Dashboard() {
-  // ############ Variables for Forms and Api Data #######################
-
   const [trainers, setTrainers] = useState([])
   const [trainigData, setTrainingData] = useState([])
-
-  // const [trainer, setTrainer] = useState()
-  // const [school, setSchool] = useState()
-  // const [sTime, setStime] = useState()
-  // const [eTime, setEtime] = useState()
   const [TraininFormData, setTrainingFormData] = useState({ trainer: "", schoolName: "", sTime: "", eTime: "", TrainingDate: "", subject: "" })
-
-
 
   const handelTrainingData = (e) => {
     setTrainingFormData({
@@ -82,11 +73,12 @@ export default function Dashboard() {
 
     axios.get(`${BASE_URL}/trainerdata`)
       .then((response) => {
-        setTrainers(response.data)
+        setTrainers(response.data);
       }).catch(e => {
         console.log(e.response.statusText)
       })
   }, [])
+
 
   /* ###################### Saving Assigned training data and posting to server ############################## */
 
@@ -122,9 +114,9 @@ export default function Dashboard() {
         console.log(e.response.status)
       })
   }
+
   return (
     <>
-
       {/* ################# Top Cards ################# */}
 
       <div className='d-flext jutify-content-center container mt-2' id='cards'>

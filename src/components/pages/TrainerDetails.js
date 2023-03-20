@@ -36,7 +36,7 @@ export default function TrainerDetails() {
       setTrainerData([...TrainerData, response.data])
     }
     ).catch((e) => {
-      console.log(e.response.data)
+      console.log(e.response.statusText)
     }
 
     )
@@ -183,7 +183,7 @@ export default function TrainerDetails() {
             {TrainerData.map((data) => (
               <tr key={data.user}>
                 <th scope='row'>{data.user}</th>
-                <td>{data.fname}</td>
+                <td key={data.user}>{data.fname}</td>
                 <td>{data.lname}</td>
                 <td>{data.contact}</td>
                 <td><a className='text-decoration-none' href={data.trainerLink}>{data.trainerLink}</a></td>

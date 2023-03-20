@@ -2,12 +2,22 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { YesNoPopUps } from '../PopupModels/YesNoPopUps'
 import { SchoolModel } from '../PopupModels/SchoolModel'
+// import Select from 'react-select';
+// import makeAnimated from 'react-select/animated';
+// const animatedComponents = makeAnimated();
 
 export default function Schools() {
     //State variables
     const [curKey, setCurKey] = useState()
+    // const [grades, setGrades] = useState([])
     const [SchoolData, setSchoolData] = useState([])
-    const [school, setSchool] = useState({})
+    const [school, setSchool] = useState({ schoolName: '', region: '', am: '', om: ''})
+
+    // const options = [
+    //     { value: 'Grade 1', label: 'Grade 1' },
+    //     { value: 'Grade 2', label: 'Grade 2' },
+    //     { value: 'Grade 3', label: 'Grade 3' },
+    // ];
 
     //################## Handelling the changes and storing into state variables ##########################
 
@@ -15,7 +25,13 @@ export default function Schools() {
         setSchool({
             ...school, [e.target.name]: e.target.value
         })
+        console.log(school);
     }
+
+    // const handelGrades = (selectedOptions) => {
+    //     setGrades(selectedOptions.map(option => option.value));
+    //     console.log(grades);
+    //   };
 
     /* ########################### Sending School Data to Back-End ####################################### */
 
@@ -26,6 +42,8 @@ export default function Schools() {
         schoolDetails.append('am', school.am)
         schoolDetails.append('om', school.om)
         schoolDetails.append('catagory', school.catagory)
+        // schoolDetails.append('grades', school.grades)
+
         console.log(schoolDetails)
         await axios(
             {
@@ -34,9 +52,10 @@ export default function Schools() {
                 data: schoolDetails
             }
         ).then((response) => {
-            setSchoolData([...SchoolData, response.data])
+            setSchoolData([...SchoolData, response.data]);
+            console.log(response.data);
         }).catch((e) => {
-            console.log(e.response.data)
+            console.log(e.response.statusText)
         })
     }
 
@@ -69,8 +88,8 @@ export default function Schools() {
                 <hr className='border border-primary border-3 opacity-50 my-2' />
 
                 {/*################################ Model Starts ######################################### */}
-                <SchoolModel id={curKey} />
-                <YesNoPopUps path='schooldata' id={curKey} />
+                <SchoolModel id={curKey} />                         {/* For Modifiation */}
+                <YesNoPopUps path='schooldata' id={curKey} />       {/* For Deletion */}
 
                 <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div className="modal-dialog">
@@ -98,6 +117,21 @@ export default function Schools() {
                                             </div>
                                         </div>
                                     </div>
+
+
+                                    {/* ################ Grades Section ################## */}
+
+
+                                    {/* <div className="form-outline mb-4">
+                                        <label className="form-label" htmlFor="form6Example3">Select Grades</label>
+                                        <Select className='mb-3'
+                                            closeMenuOnSelect={false}
+                                            components={animatedComponents}
+                                            isMulti
+                                            options={options}
+                                            onChange={handelGrades}
+                                        />
+                                    </div> */}
 
                                     {/* <!-- AM --> */}
                                     <div className="form-outline mb-4">

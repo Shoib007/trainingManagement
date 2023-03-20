@@ -21,13 +21,13 @@ function App() {
           <div style={{ flex: 1, overflowY: 'auto', height: '100vh' }}>
             <Routes>
               {/* ####################################### Created a protected route to secure my urls */}
-              <Route path='/' element={<LoginPage/>} />
-              <Route path='/dashboard' element={<Dashboard/>} />
-              <Route path='/trainer' element={<TrainerDetails/>} />
-              <Route path='/registration' element={<TrainerRegistration/>} />
-              <Route path='/demo' element={<Demo/>} />
-              <Route path='/school' element={<Schools/>} />
-              <Route path='/profile' element={<Profile/>} />
+              <Route path='/' element={<LoginPage />} />
+              <Route path='/dashboard' element={<Dashboard />} />
+              <Route path='/trainer' element={<TrainerDetails />} />
+              <Route path='/registration' element={<TrainerRegistration />} />
+              <Route path='/demo' element={<Demo />} />
+              <Route path='/school' element={<Schools />} />
+              <Route path='/profile' element={<Profile />} />
             </Routes>
           </div>
         </div>

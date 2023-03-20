@@ -1,54 +1,40 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+import { CDBInput, CDBContainer } from 'cdbreact';
+const animatedComponents = makeAnimated();
 
-function Card() {
-  const [status, setStatus] = useState("pending");
 
-  const handlePending = () => {
-    setStatus("pending");
-  };
+export default function AnimatedMulti() {
+  const [option, setOption] = useState([]);
 
-  const handleCompleted = () => {
-    setStatus("completed");
+  const options = [
+    { value: 'Grade 1', label: 'Grade 1' },
+    { value: 'Grade 2', label: 'Grade 2' },
+    { value: 'Grade 3', label: 'Grade 3' },
+  ];
+
+  const handleChange = (selectedOptions) => {
+    setOption(selectedOptions.map(option => option.value));
+    console.log(option);
   };
 
   return (
-    <div className={`card ${status === "pending" ? "bg-warning" : "bg-success"}`}>
-      <div className="card-body">
-        <h5 className="card-title">My Card</h5>
-        <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </div>
-      <div className="card-footer">
-        <div className="btn-group" role="group">
-          <button type="button" className="btn btn-secondary" onContextMenu={(e) => e.preventDefault()}>
-            Right-click me!
-          </button>
-          <div className="btn-group" role="group">
-            <button
-              id="btnGroupDrop1"
-              type="button"
-              className="btn btn-secondary dropdown-toggle"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              {status === "pending" ? "Pending" : "Completed"}
-            </button>
-            <ul className="dropdown-menu" aria-labelledby="btnGroupDrop1">
-              <li>
-                <a className="dropdown-item" href="/#" onClick={handlePending}>
-                  Pending
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="/#" onClick={handleCompleted}>
-                  Completed
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+    <CDBContainer>
+      <CDBInput type="text" placeholder="School Name" color="primary" className='mb-3' />
+      <CDBInput type="text" placeholder="Region" color="primary" className='mb-3'/>
+      <CDBInput type="text" placeholder="Academic Manager" color="primary" className='mb-3'/>
+      <CDBInput type="text" placeholder="Operations Manager" color="primary" className='mb-3'/>
+
+      <CDBInput type="date" placeholder="Date" className='mb-3'/>
+      <label>Select Grades</label>
+      <Select className='mb-3'
+        closeMenuOnSelect={false}
+        components={animatedComponents}
+        isMulti
+        options={options}
+        onChange={handleChange}
+      />
+    </CDBContainer>
   );
 }
-
-export default Card;

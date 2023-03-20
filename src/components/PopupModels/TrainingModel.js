@@ -14,6 +14,17 @@ export default function TrainingModel(prop) {
         setTrainingData({
             ...trainingData, [e.target.name]: [e.target.value]
         })
+        console.log(trainingData);
+    }
+
+    const updataTraining = () => {
+        axios.put(`${BASE_URL}/trainingUpdate/${prop.id}`, trainingData)
+        .then((res) => {
+            console.log(res.data);
+        })
+        .catch((err) => {
+            console.log(err.statusText);
+        })
     }
 
     useEffect(() => {
@@ -54,7 +65,7 @@ export default function TrainingModel(prop) {
 
                                 <div className="form-outline mb-4">
                                     <label className="form-label" htmlFor="form6Example5">Select Trainer</label>
-                                    <select className="form-select" aria-label="Default select example" value={trainingData.trainerName} name='trainerName' onChange={handelTrainingData} required>
+                                    <select className="form-select" aria-label="Default select example" name='trainerName' onChange={handelTrainingData} required>
                                         <option value='none' hidden>Choose Trainer</option>
                                         {
                                             trainers.map((trainer) => {
@@ -68,7 +79,7 @@ export default function TrainingModel(prop) {
 
                                 <div className="form-outline mb-4">
                                     <label className="selectpicker" htmlFor="form6Example5">Select School</label>
-                                    <select className="form-select" data-live-search="true" value={trainingData.schoolName} name='schoolName' onChange={handelTrainingData} required>
+                                    <select className="form-select" data-live-search="true"  name='schoolName' onChange={handelTrainingData} required>
                                         <option value='none' hidden>Choose School</option>
                                         {
                                             schoolApi.map((data) => {
@@ -115,7 +126,7 @@ export default function TrainingModel(prop) {
                             </form>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Assign</button>
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={updataTraining}>Update</button>
                         </div>
                     </div>
                 </div>
