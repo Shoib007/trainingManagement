@@ -28,6 +28,7 @@ export default function LoginPage() {
     //################################ Fetching Qutes ###########################################
 
     useEffect(() => {
+        
         if (!staff) {
             // Hide the success message box after 3 seconds
             const timeoutId = setTimeout(() => {

@@ -11,7 +11,7 @@ export default function Schools() {
     const [curKey, setCurKey] = useState()
     // const [grades, setGrades] = useState([])
     const [SchoolData, setSchoolData] = useState([])
-    const [school, setSchool] = useState({ schoolName: '', region: '', am: '', om: ''})
+    const [school, setSchool] = useState({ schoolName: '', region: '', am: '', om: '', status:'pending'})
 
     // const options = [
     //     { value: 'Grade 1', label: 'Grade 1' },
@@ -42,6 +42,7 @@ export default function Schools() {
         schoolDetails.append('am', school.am)
         schoolDetails.append('om', school.om)
         schoolDetails.append('catagory', school.catagory)
+        schoolDetails.append('state', school.status)
         // schoolDetails.append('grades', school.grades)
 
         console.log(schoolDetails)
@@ -184,7 +185,7 @@ export default function Schools() {
                             {
                                 SchoolData.map((school) => {
 
-                                    return <tr key={school.id}>
+                                    return <tr key={school.id} className="table-primary">
                                         <th scope="row">{school.id}</th>
                                         <td>{school.school}</td>
                                         <td>{school.region}</td>
