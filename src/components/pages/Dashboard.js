@@ -37,10 +37,11 @@ export default function Dashboard() {
 
   const filterData = useMemo(() => {
     return trainigData.filter(training => (
-      (!filter.selectedDate || training.TrainingDate >= filter.selectedDate) &&
+      ((!filter.selectedDate || training.TrainingDate >= filter.selectedDate) &&
       (!filter.endingDate || training.TrainingDate <= filter.endingDate) &&
       (!filter.state || training.state === filter.state) &&
-      (!filter.name || training.trainerName === filter.name)
+      (!filter.name || training.trainerName === filter.name)) || 
+      (!filter.state || filter.state === 'pending'? training.state === 'pending':undefined)
     ));
   }, [filter.selectedDate, filter.endingDate, filter.state, filter.name, trainigData]);
 
@@ -200,7 +201,7 @@ export default function Dashboard() {
                           <option value='none' hidden>Choose School</option>
                           {
                             schoolApi.map((data) => {
-                              return <option value={parseInt(data.id)} key={data.id}>{data.school}</option>
+                              return <option value={parseInt(data.id)} key={data.id}>{`${data.school} : (${data.subject})`}</option>
                             })
                           }
 

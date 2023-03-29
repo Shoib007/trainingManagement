@@ -10,6 +10,7 @@ export function SchoolModel(prop) {
         school: '',
         region: '',
         am: '',
+        subject:'',
         om: '',
         catagory: ''
     })
@@ -65,6 +66,7 @@ export function SchoolModel(prop) {
                                         </div>
                                     </div>
 
+                                    {/* <!--- Region --> */}
                                     <div className="col">
                                         <div className="form-outline">
                                             <label className="form-label" htmlFor="form6Example2">Region</label>
@@ -73,10 +75,22 @@ export function SchoolModel(prop) {
                                     </div>
                                 </div>
 
+                                {/* <!-- Subject --> */}
+                                <div className="form-outline mb-4">
+                                    <label className="form-label" htmlFor="form6Example3">Requested Training Subject</label>
+                                    <select className="form-select" name="subject" value={schoolData.subject} aria-label="Default select example" onChange={handleChanges} required>
+                                        <option value='none' hidden>Subject</option>
+                                        <option value="Computer Science">Computer Science</option>
+                                        <option value="Robotics">Robotics</option>
+                                        <option value="Aeromodelling">Aeromodelling</option>
+                                        <opiton value="DC Session">DC Dession</opiton>
+                                    </select>
+                                </div>
+
                                 {/* <!-- AM --> */}
                                 <div className="form-outline mb-4">
                                     <label className="form-label" htmlFor="form6Example3">Academic Manager</label>
-                                    <input type="text" id="form6Example3" name="am" value={schoolData.am} className="form-control" onChange={handleChanges} required />
+                                    <input type="text" id="form6Example3" name="am" value={schoolData.am} className="form-control" onChange={handleChanges} placeholder="hjhjh" required />
                                 </div>
 
                                 {/* <!-- OM --> */}
@@ -90,6 +104,7 @@ export function SchoolModel(prop) {
                                     <label className="form-label" htmlFor="form6Example5">School Catagory</label>
                                     <select className="form-select" name="catagory" value={schoolData.catagory} aria-label="Default select example" onChange={handleChanges} required>
                                         <option value='none' hidden>Catagory</option>
+                                        <option value="Catagory A+">Catagory A+</option>
                                         <option value="Catagory A">Catagory A</option>
                                         <option value="Catagory B">Catagory B</option>
                                         <option value="Catagory C">Catagory C</option>

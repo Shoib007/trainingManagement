@@ -10,6 +10,7 @@ import LoginPage from './components/pages/loginPage';
 import { AuthContext } from './components/authFolder/AuthContext';
 import { useContext } from 'react';
 import Sidebar from './components/Navbar';
+import SecurePath from './components/SecurePath';
 
 function App() {
   const Authenticated = useContext(AuthContext).authData;
@@ -22,12 +23,22 @@ function App() {
             <Routes>
               {/* ####################################### Created a protected route to secure my urls */}
               <Route path='/' element={<LoginPage />} />
-              <Route path='/dashboard' element={<Dashboard />} />
-              <Route path='/trainer' element={<TrainerDetails />} />
-              <Route path='/registration' element={<TrainerRegistration />} />
+              <Route path='/dashboard' element={
+                <SecurePath isSignedIn={Authenticated}> <Dashboard /> </SecurePath>
+              } />
+              <Route path='/trainer' element={
+                <SecurePath isSignedIn={Authenticated}> <TrainerDetails /> </SecurePath>
+              } />
+              <Route path='/registration' element={
+                <SecurePath isSignedIn={Authenticated}> <TrainerRegistration /> </SecurePath>
+              } />
               <Route path='/demo' element={<Demo />} />
-              <Route path='/school' element={<Schools />} />
-              <Route path='/profile' element={<Profile />} />
+              <Route path='/school' element={
+                <SecurePath isSignedIn={Authenticated}> <Schools /> </SecurePath>
+              } />
+              <Route path='/profile' element={
+                <SecurePath isSignedIn={Authenticated}> <Profile /> </SecurePath>
+              } />
             </Routes>
           </div>
         </div>

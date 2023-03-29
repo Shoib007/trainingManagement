@@ -1,20 +1,9 @@
-import React from "react";
-import { Route, Navigate } from "react-router-dom";
-
-const ProtectedRoute = ({ path, element: Element, isAuthenticated, ...rest }) => {
-  return (
-    <Route
-      {...rest}
-      path={path}
-      element={
-        isAuthenticated ? (
-          <Element />
-        ) : (
-          <Navigate to="/" replace />
-        )
-      }
-    />
-  );
-};
-
-export default ProtectedRoute;
+import React from 'react'
+import { Navigate } from 'react-router-dom'
+function SecurePath({ isSignedIn, children }) {
+  if (!isSignedIn) {
+    return <Navigate to="/" replace />
+  }
+  return children
+}
+export default SecurePath

@@ -11,7 +11,7 @@ export default function Schools() {
     const [curKey, setCurKey] = useState()
     // const [grades, setGrades] = useState([])
     const [SchoolData, setSchoolData] = useState([])
-    const [school, setSchool] = useState({ schoolName: '', region: '', am: '', om: '', status:'pending'})
+    const [school, setSchool] = useState({ schoolName: '', region: '', am: '', om: '', status: 'pending', subject:'' })
 
     // const options = [
     //     { value: 'Grade 1', label: 'Grade 1' },
@@ -36,13 +36,14 @@ export default function Schools() {
     /* ########################### Sending School Data to Back-End ####################################### */
 
     const saveSchoolDetails = async () => {
-        const schoolDetails = new FormData()
-        schoolDetails.append('school', school.schoolName)
-        schoolDetails.append('region', school.region)
-        schoolDetails.append('am', school.am)
-        schoolDetails.append('om', school.om)
-        schoolDetails.append('catagory', school.catagory)
-        schoolDetails.append('state', school.status)
+        const schoolDetails = new FormData();
+        schoolDetails.append('school', school.schoolName);
+        schoolDetails.append('region', school.region);
+        schoolDetails.append('am', school.am);
+        schoolDetails.append('om', school.om);
+        schoolDetails.append('catagory', school.catagory);
+        schoolDetails.append('state', school.status);
+        schoolDetails.append('subject', school.subject);
         // schoolDetails.append('grades', school.grades)
 
         console.log(schoolDetails)
@@ -81,9 +82,12 @@ export default function Schools() {
 
     return (
         <div className='my-5'>
-            <div className="container d-flext justify-content-center my-4">
+            <div className="container my-4">
                 <div className="my-3">
                     <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add School</button>
+                </div>
+                <div className='my-3'>
+
                 </div>
 
                 <hr className='border border-primary border-3 opacity-50 my-2' />
@@ -119,6 +123,17 @@ export default function Schools() {
                                         </div>
                                     </div>
 
+                                    {/* <!-- Subject --> */}
+                                    <div className="form-outline mb-4">
+                                        <label className="form-label" htmlFor="form6Example3">Requested Training Subject</label>
+                                        <select className="form-select" name="subject" aria-label="Default select example" onChange={handleChange} required>
+                                            <option value='none' hidden>Subject</option>
+                                            <option value="Computer Science">Computer Science</option>
+                                            <option value="Robotics">Robotics</option>
+                                            <option value="Aeromodelling">Aeromodelling</option>
+                                            <opiton value="DC Session">DC Dession</opiton>
+                                        </select>
+                                    </div>
 
                                     {/* ################ Grades Section ################## */}
 
@@ -151,6 +166,7 @@ export default function Schools() {
                                         <label className="form-label" htmlFor="form6Example5">School Catagory</label>
                                         <select className="form-select" aria-label="Default select example" name='catagory' onChange={handleChange} required>
                                             <option value='none' hidden>Catagory</option>
+                                            <option value="Catagory A+">Catagory A+</option>
                                             <option value="Catagory A">Catagory A</option>
                                             <option value="Catagory B">Catagory B</option>
                                             <option value="Catagory C">Catagory C</option>
@@ -172,6 +188,7 @@ export default function Schools() {
                         <thead>
                             <tr>
                                 <th scope="col">SchoolID</th>
+                                <th scope='col'>Status</th>
                                 <th scope="col">School Name</th>
                                 <th scope="col">Region</th>
                                 <th scope="col">Academic Manager</th>
@@ -185,8 +202,9 @@ export default function Schools() {
                             {
                                 SchoolData.map((school) => {
 
-                                    return <tr key={school.id} className="table-primary">
+                                    return <tr key={school.id} className={`${school.state === 'pending' ? "table-danger" : school.state === 'completed' ? "table-success" : "table-warning"}`}>
                                         <th scope="row">{school.id}</th>
+                                        <td>{school.state}</td>
                                         <td>{school.school}</td>
                                         <td>{school.region}</td>
                                         <td>{school.am}</td>

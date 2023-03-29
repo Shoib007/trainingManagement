@@ -27,7 +27,7 @@ export default function Profile(prop) {
         }).then(res => {
 
             //After update fectch profile and show
-            
+
             console.log(res);
             axios.get(`${BASE_URL}/login`, { withCredentials: true })
                 .then((res) => {
