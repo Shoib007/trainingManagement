@@ -41,7 +41,7 @@ export default function Dashboard() {
       (!filter.endingDate || training.TrainingDate <= filter.endingDate) &&
       (!filter.state || training.state === filter.state) &&
       (!filter.name || training.trainerName === filter.name)) || 
-      (!filter.state || filter.state === 'pending'? training.state === 'pending':undefined)
+      (!filter.state || filter.state === 'On Going'? training.state === 'On Going':undefined)
     ));
   }, [filter.selectedDate, filter.endingDate, filter.state, filter.name, trainigData]);
 
