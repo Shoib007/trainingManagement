@@ -2,6 +2,8 @@
 
 *Under Development*
 
+![Alt text]("http://shoibwebportfolio.rf.gd/training.gif")
+
 ## Front-End Installation
 
 Install [Node.js](https://nodejs.org/) v10+ to run.
