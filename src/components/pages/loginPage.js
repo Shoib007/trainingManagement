@@ -46,7 +46,7 @@ export default function LoginPage() {
                 return response.json();
             })
             .then(function (data) {
-                setQuest(data[num])
+                setQuest(data[1])
             });
     }, [staff])
 
@@ -71,7 +71,7 @@ export default function LoginPage() {
         await axios({
             method: 'post',
             withCredentials: true,
-            url: 'http://localhost:8000/login',
+            url: `${BASE_URL}/login`,
             data: loginData,
             headers: {
                 'Content-Type': 'application/json',

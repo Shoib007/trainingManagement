@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { AuthContext } from "./AuthContext";
 import { BASE_URL } from "../BaseUrl";
 import Cookies from "js-cookie";
@@ -9,15 +9,15 @@ export const AuthProvider = (prop) => {
 
   const updateAuth = async () => {
     // fetch authentication data from the Django server
-    axios.get(`${BASE_URL}/login`, {withCredentials:true})
-    .then((res) => {
-        if(res.data.is_staff){
+    axios.get(`${BASE_URL}/login`, { withCredentials: true })
+      .then((res) => {
+        if (res.data.is_staff) {
           setAuthData(true);
-        }else{setAuthData(false)}
-    }).catch((error) => {
+        } else { setAuthData(false) }
+      }).catch((error) => {
         setAuthData(false);
         console.log(error.response.data.detail);
-    })
+      })
   };
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export const AuthProvider = (prop) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{authData, updateAuth}}>
+    <AuthContext.Provider value={{ authData, updateAuth }}>
       {prop.children}
     </AuthContext.Provider>
   );
