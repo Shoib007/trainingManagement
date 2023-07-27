@@ -2,14 +2,17 @@
 
 *Under Development*
 
-![Alt text]("http://shoibwebportfolio.rf.gd/training.gif")
-
 ## Front-End Installation
 
 Install [Node.js](https://nodejs.org/) v10+ to run.
 
-Install the dependencies and devDependencies and start the server.
+Clone the repository using the following command
 
+```
+git clone https://github.com/Shoib007/trainingManagement.git
+```
+
+Install the dependencies and devDependencies and start the server.
 
 ```sh
 cd trainingManagement
@@ -22,7 +25,7 @@ npm i
 
 
 - Install [Python](https://python.org/downloads/) 3.8+
--Install Django by runing following command
+-Install Django by running the following command
 
 ```sh
 virtualenv env
